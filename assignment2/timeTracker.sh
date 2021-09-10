@@ -14,8 +14,10 @@ function track {
         elif [[ running -eq 1 ]]; then
             echo "A task is already running. Disregarding start-command with label '$2'."; 
         else 
-            startTime=$(date +"%Y-%m-%d %T")
-            label=$2
+            # Set start-time and label, and declare that the program is tracking a task
+            echo "START $(date +"%Y-%m-%d %T")" >> $LOGFILE 
+            echo $2 >> $LOGFILE
+
             running=1 
         fi 
 
@@ -24,15 +26,11 @@ function track {
         if [[ running -eq 0 ]]; then
             echo "There are currently no active tasks. Disregarding stop-command."; 
         else 
-            stopTime=$(date +"%Y-%m-%d %T")
-            running=0 # Declare that there are no programs running
-            # Save file
-            ( 
-                echo START $startTime
-                echo LABEL $label
-                echo END $stopTime
-                echo ""
-            ) >> $LOGFILE
+            # Set stop-time, and declare that the program is no longer tracking a task
+            echo "END $(date +"%Y-%m-%d %T")" >> $LOGFILE
+            echo "" >> $LOGFILE
+
+            running=0 
         fi
     
     # Status
@@ -43,24 +41,25 @@ function track {
             echo "We are currently tracking the task with label '$label'.";
         fi
 
+    # Log
+    elif [[ "$1" == "log" ]]; then
+        if [[ ! -f "$LOGFILE" ]]; then
+            echo "No tasks have been tracked. Disregarding log-command."
+        else 
+            lines=$(cat $LOGFILE) 
+            for line in $lines; do 
+                if [[$line == *"START"* ]]; then 
+                    # Gjør noe
+                fi 
+            done 
+        fi
+
+
     # Wrong command-name
     else 
         echo "There are no commands named '$1'. Disregarding command."
     fi
 }
-
-
-# TODO: Sette variabelen LOGFILE i test-miljøet 
-
-#start "This is task 1"
-#status
-#start "This is task 2"
-#status
-#stop
-#status 
-#stop 
-#start "This is task 3"
-#status
 
 
 # TODO: gjøre så scriptet støtter en log-kommando, som displayer tid brukt på hver oppgave i formatet HH:MM:SS

@@ -3,12 +3,15 @@
 # This program tracks the time spent on a task, and stores it in a logfile
 
 declare -i running=0
-#"~/.local/share"
+
 LOGFILE=".timer_logfile"
 
 function track {
     # Start
-    if [[ "$1" == "start" ]]; then
+    if [[ $# -lt 1 ]]; then 
+        echo "Missing a command to track."; 
+
+    elif [[ "$1" == "start" ]]; then
         if [[ $# -lt 2 ]]; then
             echo "Missing a label. Correct way to use the start-command is: track start <'label'>."; 
         elif [[ running -eq 1 ]]; then
@@ -16,7 +19,7 @@ function track {
         else 
             # Set start-time and label, and declare that the program is tracking a task
             echo "START $(date +"%Y-%m-%d %T")" >> $LOGFILE 
-            echo $2 >> $LOGFILE
+            echo "LABEL $2" >> $LOGFILE
 
             running=1 
         fi 
@@ -36,9 +39,9 @@ function track {
     # Status
     elif [[ "$1" == "status" ]]; then
         if [[ running -eq 0 ]]; then
-            echo "There are currently no active tasks."; 
+            echo "There are currently no active tasks." 
         else 
-            echo "We are currently tracking the task with label '$label'.";
+            echo "We are currently tracking the task with label '$label'."
         fi
 
     # Log
@@ -46,20 +49,37 @@ function track {
         if [[ ! -f "$LOGFILE" ]]; then
             echo "No tasks have been tracked. Disregarding log-command."
         else 
-            lines=$(cat $LOGFILE) 
-            for line in $lines; do 
-                if [[$line == *"START"* ]]; then 
-                    # Gjør noe
-                fi 
-            done 
-        fi
+            # Iterate throught lines in LOGFILE, strip them of prefix, and print out time spent to terminal
+            while read line; do 
+                if [[ $line == *"START"* ]]; then 
+                    start=${line:6:19}
 
+                elif [[ $line == *"LABEL"* ]]; then 
+                    label=${line#"LABEL "}
+                    
+                elif [[ $line == *"END"* ]]; then 
+                    end=${line:4:19}
+                    
+                    # Calculate time spent on task
+                    time=$((($(date -d "$start" "+%s") - $(date -d "$end" "+%s")))) 
+                    # Find time in hours
+                    timeInHours=$((($time - ($time % 3600))/3600))
+                    # Find time in minutes
+                    time=$(($time % 3600))
+                    timeInMinutes=$((($time - ($time % 60))/60))
+                    # Find times in seconds
+                    timeInSeconds=$(($time % 60))
+
+                    # Print time out to terminal
+                    echo "$label: $timeInHours:$timeInMinutes:$timeInSeconds"
+                else 
+                    continue 
+                fi 
+            done < $LOGFILE
+        fi
 
     # Wrong command-name
     else 
         echo "There are no commands named '$1'. Disregarding command."
     fi
 }
-
-
-# TODO: gjøre så scriptet støtter en log-kommando, som displayer tid brukt på hver oppgave i formatet HH:MM:SS

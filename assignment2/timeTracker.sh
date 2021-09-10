@@ -61,7 +61,7 @@ function track {
                     end=${line:4:19}
                     
                     # Calculate time spent on task
-                    time=$((($(date -d "$start" "+%s") - $(date -d "$end" "+%s")))) 
+                    time=$((($(date -d "$end" "+%s") - $(date -d "$start" "+%s")))) 
                     # Find time in hours
                     timeInHours=$((($time - ($time % 3600))/3600))
                     # Find time in minutes

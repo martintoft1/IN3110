@@ -1,3 +1,4 @@
+import sys
 
 class Array:
 
@@ -19,8 +20,14 @@ class Array:
             ValueError: If the values are not all of the same type.
             ValueError: If the number of values does not fit with the shape.
         """
-        # Read shape (i.e. length) and array
+        # Read shape (i.e. length) 
         self._length = shape[0]
+
+        # Check if length is the same as the length of values
+        if not self._length == len(values):
+            raise ValueError("Numer of values does not fit with the shape")
+
+        # Read array
         self._array = [0] * self._length
         for i in range(self._length):
             self._array[i] = values[i]
@@ -29,34 +36,22 @@ class Array:
         isInt=0
         isFloat=0
         isBool=0
-        convert=0
         for val in self._array:
             if isinstance(val, int):
                 if not isInt:
                     isInt=1
                     if isFloat or isBool:
-                        convert=1
-                        break 
+                        raise ValueError("Not all values are of the same type") 
             if isinstance(val, float):
                 if not isFloat:
                     isFloat=1
                     if isInt or isBool:
-                        convert=1
-                        break 
+                        raise ValueError("Not all values are of the same type") 
             if isinstance(val, bool):
                 if not isBool:
                     isBool=1
                     if isFloat or isInt:
-                        convert=1
-                        break 
-        
-        # If not all values are of same type, all are converted to floats.
-        if convert:
-            for i in range(self._length):
-                self._array[i]=float(self._array[i])
-                print(self._array[i])
-        for val in self._array:
-            print(val)
+                        raise ValueError("Not all values are of the same type") 
 
     def __getitem__(self, item):
         """Returns value of item in array.

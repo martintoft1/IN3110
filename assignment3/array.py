@@ -20,12 +20,12 @@ class Array:
             ValueError: If the values are not all of the same type.
             ValueError: If the number of values does not fit with the shape.
         """
-        # Read shape (i.e. length) 
+        # Read shape
         self._length = shape[0]
 
         # Check if length is the same as the length of values
         if not self._length == len(values):
-            raise ValueError("Numer of values does not fit with the shape")
+            raise ValueError("Number of values does not fit with the shape")
 
         # Read array
         self._array = [0] * self._length
@@ -37,21 +37,23 @@ class Array:
         isFloat=0
         isBool=0
         for val in self._array:
-            if isinstance(val, int):
-                if not isInt:
-                    isInt=1
-                    if isFloat or isBool:
-                        raise ValueError("Not all values are of the same type") 
-            if isinstance(val, float):
-                if not isFloat:
-                    isFloat=1
-                    if isInt or isBool:
-                        raise ValueError("Not all values are of the same type") 
             if isinstance(val, bool):
                 if not isBool:
                     isBool=1
                     if isFloat or isInt:
                         raise ValueError("Not all values are of the same type") 
+            elif isinstance(val, int):
+                if not isInt:
+                    isInt=1
+                    if isFloat or isBool:
+                        raise ValueError("Not all values are of the same type") 
+            elif isinstance(val, float):
+                if not isFloat:
+                    isFloat=1
+                    if isInt or isBool:
+                        raise ValueError("Not all values are of the same type") 
+            else:
+                raise ValueError("Not all values are of accepted types") 
 
     def __getitem__(self, item):
         """Returns value of item in array.
@@ -69,7 +71,24 @@ class Array:
             str: A string representation of the array.
 
         """
-        pass
+        str="["
+        if self._length > 0:
+            str+=f"{self._array[0]}"
+        for i in range(1, self._length):
+            str+=f", {self._array[i]}"
+        str+="]"
+        return str
+
+
+    def __len__(self):
+        """Returns the length of the array.
+
+        Returns:
+            int: The length of the array.
+
+        """
+        return self._length
+
 
     def __add__(self, other):
         """Element-wise adds Array with another Array or number.
@@ -84,11 +103,22 @@ class Array:
             Array: the sum as a new array.
 
         """
-        
-        # check that the method supports the given arguments (check for data type and shape of array)
-        
-        
-        pass
+        if self.same_type(other):
+            newElements = list()
+            if isinstance(other, Array):
+                lenOther = len(other)
+                if (self._length == lenOther):
+                    for i in range(self._length):
+                        newElements.append(self._array[i] + other[i])
+                else:
+                    return NotImplemented
+            else:
+                for i in range(self._length):
+                    newElements.append(self._array[i] + other)
+            return Array((self._length,), *tuple(newElements))
+        else:
+            return NotImplemented
+
 
     def __radd__(self, other):
         """Element-wise adds Array with another Array or number.
@@ -103,7 +133,7 @@ class Array:
             Array: the sum as a new array.
 
         """
-        pass
+        return self.__add__(other)
 
     def __sub__(self, other):
         """Element-wise subtracts an Array or number from this Array.
@@ -118,7 +148,21 @@ class Array:
             Array: the difference as a new array.
 
         """
-        pass
+        if self.same_type(other):
+            newElements = list()
+            if isinstance(other, Array):
+                lenOther = len(other)
+                if (self._length == lenOther):
+                    for i in range(self._length):
+                        newElements.append(self._array[i] - other[i])
+                else:
+                    return NotImplemented
+            else:
+                for i in range(self._length):
+                    newElements.append(self._array[i] - other)
+            return Array((self._length,), *tuple(newElements))
+        else:
+            return NotImplemented
 
     def __rsub__(self, other):
         """Element-wise subtracts this Array from a number or Array.
@@ -133,7 +177,7 @@ class Array:
             Array: the difference as a new array.
 
         """
-        pass
+        return self.__sub__(other)
 
     def __mul__(self, other):
         """Element-wise multiplies this Array with a number or array.
@@ -148,7 +192,21 @@ class Array:
             Array: a new array with every element multiplied with `other`.
 
         """
-        pass
+        if self.same_type(other):
+            newElements = list()
+            if isinstance(other, Array):
+                lenOther = len(other)
+                if (self._length == lenOther):
+                    for i in range(self._length):
+                        newElements.append(self._array[i] * other[i])
+                else:
+                    return NotImplemented
+            else:
+                for i in range(self._length):
+                    newElements.append(self._array[i] * other)
+            return Array((self._length,), *tuple(newElements))
+        else:
+            return NotImplemented
 
     def __rmul__(self, other):
         """Element-wise multiplies this Array with a number or array.
@@ -163,7 +221,6 @@ class Array:
             Array: a new array with every element multiplied with `other`.
 
         """
-        # Hint: this solution/logic applies for all r-methods
         return self.__mul__(other)
 
     def __eq__(self, other):
@@ -179,7 +236,15 @@ class Array:
             bool: True if the two arrays are equal (identical). False otherwise.
 
         """
-        pass
+        if self.same_type(other):
+            if isinstance(other, Array):
+                lenOther = len(other)
+                if (self._length == lenOther):
+                    for i in range(self._length):
+                        if not self._array[i] == other[i]:
+                            return False
+                    return True
+        return False
 
     def is_equal(self, other):
         """Compares an Array element-wise with another Array or number.
@@ -197,12 +262,35 @@ class Array:
 
         Raises:
             ValueError: if the shape of self and other are not equal.
+            NotImplemented: if the types of self and other are not equal.
 
         """
-        
-        pass
+        if self.same_type(other):
+            newElements = list()
+            if isinstance(other, Array):
+                lenOther = len(other)
+                if (self._length == lenOther):
+                    for i in range(self._length):
+                        if self._array[i] == other[i]:
+                            newElements.append(True)
+                        else:
+                            newElements.append(False)
+                else:
+                    return ValueError
+            else:
+                for i in range(self._length):
+                    if self._array[i] == other:
+                        newElements.append(True)
+                    else:
+                        newElements.append(False)
+            return Array((self._length,), *tuple(newElements))
+        elif isinstance(other, Array):
+            if isinstance(other[0], bool) or isinstance(other[0], int) or isinstance(other[0], float):
+                return NotImplemented
+        else:
+            return TypeError
+            
     
-
     def min_element(self):
         """Returns the smallest value of the array.
 
@@ -212,7 +300,50 @@ class Array:
             float: The value of the smallest element in the array.
 
         """
+        if self._length > 0:
+            if isinstance(self._array[0], int) or isinstance(self._array, float):
+                smallest = self._array[0]
+                for i in range(1, self._length):
+                    if self._array[i] < smallest:
+                        smallest = self._array[i]
+                return smallest
+            else:
+                return TypeError
+        else:
+            return 0
+
+    def same_type(self, other):
+        """Checks if type of values in Array is equal to type of values in another Array or number.
+
+        Args:
+            other (Array, float, int): The array or number to check if has the same type as this array.
+
+        Returns:
+            A Boolean with True if the values are of same type, or False if the values are not of same type.
+
+        """
+        if self._length != 0: 
+            if (isinstance(other, Array)):
+                if len(other) > 0:
+                    if self._array[0].__class__ == other[0].__class__: # Arrays must consist of same types, so if class of first elements is equal then so are the rest
+                        if (isinstance(self._array[0], bool) and not isinstance(other[0], bool)) or (not isinstance(self._array[0], bool) and isinstance(other[0], bool)): # Special case, must check because bool is subtype of int
+                            return False
+                    else:
+                        return False
         
-        pass
+            elif isinstance(other, bool):
+                if not isinstance(self._array[0], bool):
+                    return False
+            
+            elif isinstance(other, int):
+                if not isinstance(self._array[0], int):
+                    return False
+            
+            elif isinstance(other, float):
+                if not isinstance(self._array[0], float):
+                    return False
 
-
+            else:
+                return False
+    
+        return True

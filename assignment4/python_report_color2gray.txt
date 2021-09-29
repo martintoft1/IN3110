@@ -1,0 +1,5 @@
+Timing: python_color2gray
+Average runtime running python_color2gray after 3 runs: 2.754 s
+Timing performed using: time.time()
+Image converted: rain.jpg
+Dimensions of image: (400, 600, 3)

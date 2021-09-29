@@ -27,3 +27,30 @@ report_grayscale_filter(filename)
 ```
 
 which should first be run in the python-version, then the numpy-version, and lastly in the numba-version, in order to get the correct speedup.
+
+
+## Task 4.2
+
+### Prerequisites
+
+The same as in task 4.1
+
+### Functionality 
+
+The same as in task 4.1, only that they convert images from a color-image to a sepia-image.
+
+### Usage
+
+To convert a color-image to a sepia-image the user needs to run the following command in python
+
+```python
+sepia_filter(filename)
+```
+
+To write a report of the convertion to a file, the user needs to run the following command in python
+
+```python
+report_sepia_filter(filename)
+```
+
+which should first be run in the python-version, then the numpy-version, and lastly in the numba-version, in order to get the correct speedup.

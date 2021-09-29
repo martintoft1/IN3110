@@ -1,0 +1,5 @@
+Timing: python_color2sepia
+Average runtime running python_color2sepia after 3 runs: 7.945 s
+Timing performed using: time.time()
+Image converted: rain.jpg
+Dimensions of image: (400, 600, 3)

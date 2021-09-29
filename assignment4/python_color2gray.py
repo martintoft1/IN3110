@@ -40,6 +40,3 @@ def report_grayscale_filter(filename):
     # Write info and runtime to file
     f = open("python_report_color2gray.txt", "w")
     f.write(f"Timing: python_color2gray\nAverage runtime running python_color2gray after 3 runs: {average} s\nTiming performed using: time.time()\nImage converted: {filename}\nDimensions of image: ({height}, {width}, {channels})")
-    
-
-report_grayscale_filter("rain.jpg")

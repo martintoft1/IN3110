@@ -78,6 +78,3 @@ def calculate_speedup_grayscale_filter(numpy_time, filename):
     speedup = other_time / numpy_time
     speedup = "{:.3f}".format(speedup) # 3 decimals
     return speedup
-    
-
-report_grayscale_filter("rain.jpg")

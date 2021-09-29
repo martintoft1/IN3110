@@ -20,7 +20,7 @@ def grayscale_filter(filename):
     filename, type = filename.split(".")
     cv2.imwrite(f"{filename}_grayscale.{type}", image)
 
-def track_runtime_grayscale_filter(filename):
+def report_grayscale_filter(filename):
     image = cv2.imread(filename) # Read the image
 
     height = image.shape[0] # Read the height of the image
@@ -39,7 +39,7 @@ def track_runtime_grayscale_filter(filename):
 
     # Write info and runtime to file
     f = open("python_report_color2gray.txt", "w")
-    f.write(f"Timing: python_color2gray\nAverage runtime running python_color2gray after 3 runs: {average} s\nTiming performed using: {filename}")
+    f.write(f"Timing: python_color2gray\nAverage runtime running python_color2gray after 3 runs: {average} s\nTiming performed using: time.time()\nImage converted: {filename}\nDimensions of image: ({height}, {width}, {channels})")
     
 
-track_runtime_grayscale_filter("rain.jpg")
+report_grayscale_filter("rain.jpg")

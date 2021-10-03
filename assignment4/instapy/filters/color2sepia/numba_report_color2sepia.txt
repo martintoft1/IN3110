@@ -1,0 +1,7 @@
+Timing: numba_color2sepia.py
+Image converted: /Users/martintoft/Documents/IT2019-2022/2021-2022/IN3110/IN3110-matoft/assignment4/rain.jpg
+Dimensions of image: (400, 600, 3)
+Average runtime running numba_color2sepia.py after 3 runs: 0.235 s
+Timing performed using: time.time()
+Average runtime running of numba_color2sepia.py is 33.809 times faster than python_color2sepia.txt
+Average runtime running of numba_color2sepia.py is 0.183 times faster than numpy_color2sepia.txt

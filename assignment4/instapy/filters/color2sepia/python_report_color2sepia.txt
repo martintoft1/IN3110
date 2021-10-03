@@ -1,0 +1,5 @@
+Timing: python_color2sepia.py
+Image converted: /Users/martintoft/Documents/IT2019-2022/2021-2022/IN3110/IN3110-matoft/assignment4/rain.jpg
+Dimensions of image: (400, 600, 3)
+Average runtime running python_color2sepia.py after 3 runs: 7.652 s
+Timing performed using: time.time()

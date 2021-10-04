@@ -1,13 +1,20 @@
 import sys 
 sys.path.append("..")
 from color2 import Color2
-import cv2
 import numpy as np
 
 class NumpyColor2Sepia(Color2):
-    def sepia_filter(self, input_filename, output_filename=None):
-        image = cv2.imread(input_filename) # Read the image
+    # 4.2:
+    def sepia_filter(self, image):
+        """
+        Method for converting a image to a sepia image using numpy
 
+        args:
+            image (integer 3D array): The image that is to be converted
+
+        returns:
+            image (numpy integer 3D array): The sepia image
+        """
         sepia_matrix = [[ 0.131, 0.168, 0.189],
                         [ 0.534, 0.686, 0.769],
                         [ 0.272, 0.349, 0.393]] # Sepia filter matrix in BGR order, ordered downwards in the columns in order to allow it to be used with the image in the np.dot()-method to produce the sepia_image
@@ -20,14 +27,22 @@ class NumpyColor2Sepia(Color2):
         sepia_matrix = np.dot(0.718, sepia_matrix)
         # Multiply each color value with the corresponding channel of a pixel with the BGR ordered sepia_matrix
         image = np.dot(image[...,:3], sepia_matrix)
-
-        # Save the sepia_image
-        self.save_image("sepia", input_filename, output_filename, image)
+        # Convert to int
+        image = image.astype(int)
 
         return image
 
 
+    # 4.2:
     def report_sepia_filter(self, filename, *report_files):
+        """
+        Method for automatically writing a report of the sepia_filter-function on a given image with the numpy-implementation
+
+        args:
+            image_filename (str): The filename and -path to the image that was used for the filter-function
+            *report_files (tuple): The filenames and -paths to the other reports that this method is to compare runtimes with
+        """
+        # Get report
         report = self.get_report("sepia", __file__, filename, *report_files)
 
         # Write report to file
@@ -35,6 +50,24 @@ class NumpyColor2Sepia(Color2):
         f.write(report)
 
 
-if __name__ == "__main__":
-    nc2s = NumpyColor2Sepia()
-    nc2s.report_sepia_filter("/Users/martintoft/Documents/IT2019-2022/2021-2022/IN3110/IN3110-matoft/assignment4/rain.jpg", "/Users/martintoft/Documents/IT2019-2022/2021-2022/IN3110/IN3110-matoft/assignment4/python_report_color2sepia.txt")
+    # 4.3:
+    def sepia_image(self, input_filename_image, output_filename_image=None):
+        """
+        Returns a numpy integer 3D array of a sepia image of input_filename_image. If output_filename_image is supplied, the created image is saved to the specified location with the specified name
+
+        Args:
+            input_filename_image (str): The filename and -path from which the image was read
+            output_filename_image (str): The filename and -path to which the image should be saved
+
+        Returns:
+            image (numpy integer 3d array): sepia image of input_filename_image
+        """
+        # Make sepia image
+        image = self.make_image(input_filename_image)
+        image = self.sepia_filter(image)
+
+        # Save sepia image
+        self.save_image("sepia", input_filename_image, output_filename_image, image)
+
+        # Return sepia image
+        return image

@@ -1,12 +1,19 @@
 import sys 
 sys.path.append("..")
 from color2 import Color2
-import cv2
 
 class PythonColor2Gray(Color2):
-    def grayscale_filter(self, input_filename, output_filename=None):
-        image = cv2.imread(input_filename) # Read the image
+    # 4.1:
+    def grayscale_filter(self, image):
+        """
+        Pure python method for converting a image to a gray image
 
+        args:
+            image (integer 3D array): The image that is to be converted
+
+        returns:
+            image (integer 3D array): The grayscale image
+        """
         height = image.shape[0] # Read the height of the image
         width = image.shape[1] # Read the width of the image
 
@@ -19,19 +26,25 @@ class PythonColor2Gray(Color2):
                 for k in range(3):
                     image[i][j][k] = weighted_average
 
-        # Save the grayscale image
-        self.save_image("grayscale", input_filename, output_filename, image)
-
         # Return the grayscale image
         return image
 
 
+    # 4.1:
     def report_grayscale_filter(self, filename, *report_files):
+        """
+        Method for automatically writing a report of the grayscale_filter-function on a given image with the python-implementation
+
+        args:
+            image_filename (str): The filename and -path to the image that was used for the filter-function
+            *report_files (tuple): The filenames and -paths to the other reports that this method is to compare runtimes with
+        """
         report = self.get_report("grayscale", __file__, filename, *report_files)
 
         # Write report to file
         f = open(f"python_report_color2gray.txt", "w")
         f.write(report)
+
 
 
 if __name__ == "__main__":

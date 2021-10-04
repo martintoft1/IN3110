@@ -5,20 +5,37 @@ import cv2
 from numba import jit
 
 class NumbaColor2Gray(Color2):
-    def grayscale_filter(self, input_filename, output_filename=None):
-        image = cv2.imread(input_filename) # Read the image
+    # 4.1:
+    def grayscale_filter(self, image):
+        """
+        Method for converting a image to a gray image using numba
 
-        image = self.make_grayscale_filter(image) # Make the grayscale image
+        args:
+            image (integer 3D array): The image that is to be converted
 
-        self.save_image("grayscale", input_filename, output_filename, image)
+        returns:
+            image (integer 3D array): The grayscale image
+        """
+        # Make the grayscale image
+        image = self.make_grayscale_filter(image) 
 
         # Return the grayscale image
         return image
 
 
+    # 4.1:
     @staticmethod
     @jit
     def make_grayscale_filter(image):
+        """
+        The actual method that utilizes numba to create a gray image from an image
+
+        args:
+            image (integer 3D array): The image that is to be converted
+
+        returns:
+            image (integer 3D array): The grayscale image
+        """
         height = image.shape[0] # Read the height of the image
         width = image.shape[1] # Read the width of the image
 
@@ -34,14 +51,17 @@ class NumbaColor2Gray(Color2):
         return image
 
 
+    # 4.1:
     def report_grayscale_filter(self, filename, *report_files):
-            report = self.get_report("grayscale", __file__, filename, *report_files)
+        """
+        Method for automatically writing a report of the grayscale_filter-function on a given image with the numba-implementation
 
-            # Write report to file
-            f = open(f"numba_report_color2gray.txt", "w")
-            f.write(report)
+        args:
+            image_filename (str): The filename and -path to the image that was used for the filter-function
+            *report_files (tuple): The filenames and -paths to the other reports that this method is to compare runtimes with
+        """
+        report = self.get_report("grayscale", __file__, filename, *report_files)
 
-
-if __name__ == "__main__":
-    nc2g = NumbaColor2Gray()
-    nc2g.report_grayscale_filter("/Users/martintoft/Documents/IT2019-2022/2021-2022/IN3110/IN3110-matoft/assignment4/rain.jpg", "/Users/martintoft/Documents/IT2019-2022/2021-2022/IN3110/IN3110-matoft/assignment4/python_report_color2gray.txt", "/Users/martintoft/Documents/IT2019-2022/2021-2022/IN3110/IN3110-matoft/assignment4/numpy_report_color2gray.txt")
+        # Write report to file
+        f = open(f"numba_report_color2gray.txt", "w")
+        f.write(report)

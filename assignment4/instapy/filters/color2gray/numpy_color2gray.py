@@ -43,7 +43,7 @@ class NumpyColor2Gray(Color2):
 
         # Write report to file
         self.save_report(report, "numpy_report_color2gray.txt", output_directory)
-
+        
 
     # 4.3:
     def grayscale_image(self, input_filename_image, output_filename_image=None):

@@ -224,3 +224,4 @@ def generate_random_3D_array():
         numpy integer 3D array: random 3D array
     """
     return np.random.randint(0, 255, size = (200, 251, 3))
+    

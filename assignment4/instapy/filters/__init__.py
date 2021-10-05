@@ -1,7 +1,6 @@
-import cv2
-import numpy as np
-import os
-
-def grayscale_image(input_filename, output_filename=None):
-    # Decide which of the methods to use to make the grayscale image 
-    pass
+from color2gray.python_color2gray import PythonColor2Gray
+from color2gray.numpy_color2gray import NumpyColor2Gray
+from color2gray.numba_color2gray import NumbaColor2Gray
+from color2sepia.python_color2sepia import PythonColor2Sepia
+from color2sepia.numpy_color2sepia import NumpyColor2Sepia
+from color2sepia.numba_color2sepia import NumbaColor2Sepia

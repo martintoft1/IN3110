@@ -51,7 +51,7 @@ class NumpyColor2Sepia(Color2):
 
         # Write report to file
         self.save_report(report, "numpy_report_color2sepia.txt", output_directory)
-
+        
 
     # 4.3:
     def sepia_image(self, input_filename_image, output_filename_image=None):

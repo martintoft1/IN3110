@@ -34,20 +34,23 @@ class NumpyColor2Sepia(Color2):
 
 
     # 4.2:
-    def report_sepia_filter(self, filename, *report_files):
+    def report_sepia_filter(self, input_filename, output_directory,  *report_files):
         """
-        Method for automatically writing a report of the sepia_filter-function on a given image with the numpy-implementation
+        Method for automatically writing and saving a report of the sepia_filter-function on a given image with the numpy-implementation
 
         args:
             image_filename (str): The filename and -path to the image that was used for the filter-function
             *report_files (tuple): The filenames and -paths to the other reports that this method is to compare runtimes with
         """
         # Get report
-        report = self.get_report("sepia", __file__, filename, *report_files)
+        report = self.get_report("sepia", __file__, input_filename, *report_files)
+
+        # Check if report was written without errors
+        if type(report) == Exception:
+            raise report 
 
         # Write report to file
-        f = open(f"numpy_report_color2sepia.txt", "w")
-        f.write(report)
+        self.save_report(report, "numpy_report_color2sepia.txt", output_directory)
 
 
     # 4.3:
@@ -61,9 +64,15 @@ class NumpyColor2Sepia(Color2):
 
         Returns:
             image (numpy integer 3d array): sepia image of input_filename_image
+            FileNotFoundError: If input_filename_image or output_filename_image is not found
+            TypeError: If image_filename doesn't contain an image
         """
-        # Make sepia image
+        # Make image
         image = self.make_image(input_filename_image)
+        if type(image) is Exception:
+            raise image
+
+        # Make sepia image
         image = self.sepia_filter(image)
 
         # Save sepia image

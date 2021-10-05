@@ -1,7 +1,6 @@
 import sys 
 sys.path.append("..")
 from color2 import Color2
-import cv2
 from numba import jit
 
 class NumbaColor2Gray(Color2):
@@ -52,16 +51,20 @@ class NumbaColor2Gray(Color2):
 
 
     # 4.1:
-    def report_grayscale_filter(self, filename, *report_files):
+    def report_grayscale_filter(self, input_filename, output_directory,  *report_files):
         """
-        Method for automatically writing a report of the grayscale_filter-function on a given image with the numba-implementation
+        Method for automatically writing and saving a report of the grayscale_filter-function on a given image with the numba-implementation
 
         args:
             image_filename (str): The filename and -path to the image that was used for the filter-function
             *report_files (tuple): The filenames and -paths to the other reports that this method is to compare runtimes with
         """
-        report = self.get_report("grayscale", __file__, filename, *report_files)
+        # Get report
+        report = self.get_report("grayscale", __file__, input_filename, *report_files)
+
+        # Check if report was written without errors
+        if type(report) == Exception:
+            raise report 
 
         # Write report to file
-        f = open(f"numba_report_color2gray.txt", "w")
-        f.write(report)
+        self.save_report(report, "numba_report_color2gray.txt", output_directory)

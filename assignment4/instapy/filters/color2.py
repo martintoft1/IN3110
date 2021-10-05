@@ -1,6 +1,7 @@
 import cv2
 import time
 import os
+import imghdr 
 
 """
 Contains all the common methods that the different filter-implementations use
@@ -16,7 +17,16 @@ class Color2():
 
         Returns:
             image (3D array): The image from the described file-path
+            FileNotFoundError: If image_filename is not found
+            TypeError: If image_filename doesn't contain an image
         """
+        # Check if image-file exists
+        if not os.path.exists(image_filename):
+            raise FileNotFoundError(image_filename)
+        else:
+            if imghdr.what(image_filename) == None:
+                raise TypeError(image_filename)
+
         # Read image from file
         image = cv2.imread(image_filename)
 
@@ -34,18 +44,34 @@ class Color2():
             output_filename_image (str): The filename and -path to which the image should be saved
             image (3D array): The image that should be saved
         """
+        # Check if input imagefile and -path exists
+        if not os.path.exists(input_filename_image):
+            raise FileNotFoundError(input_filename_image)
+
         if output_filename_image: # Change save location of the filtered image, then save it
             # Get path and filename
             path_bits = output_filename_image.split("/")
             len_bits = len(path_bits)
-            path = ""
-            for i in range(len_bits-1):
-                path += "/"+path_bits[i]
+            new_path = path_bits[0]
+            for i in range(1, len_bits-1):
+                new_path += "/"+path_bits[i]
+
+            # Check if output imagepath exists
+            if not os.path.exists(new_path):
+                raise FileNotFoundError(new_path)
+
+            # Save old path
+            old_path = os.getcwd() 
+
             # Change save location
-            os.chdir(path) 
+            os.chdir(new_path) 
+
             # Save the filter image
             filename = path_bits[len_bits-1]
             cv2.imwrite(filename, image)
+
+            # Go back to old path
+            os.chdir(old_path)
 
         else: # Save the filter image
             input_filename_image, type = input_filename_image.split(".")
@@ -65,8 +91,12 @@ class Color2():
 
         Returns:
             report (str): The report
+            FileNotFoundError: If image_filename is not found
         """
-        image = cv2.imread(image_filename) # Read the image
+        # Read the image and check if it was read correctly
+        image = self.make_image(image_filename) 
+        if type(image) == Exception:
+            raise image
 
         height = image.shape[0] # Read the height of the image
         width = image.shape[1] # Read the width of the image
@@ -75,13 +105,23 @@ class Color2():
         # Track average runtime after running filter 3 times
         average = self.calculate_average_time(filter, image, 3)
 
+        # Get filename from implementation
+        implementation_filename = os.path.basename(implementation)
+
         # Report-string
-        report = f"Timing: {implementation}\nImage converted: {image_filename}\nDimensions of image: ({height}, {width}, {channels})\nAverage runtime running {implementation} after 3 runs: {average} s\nTiming performed using: time.time()"
+        report = f"Timing: {implementation_filename}\nImage converted: {image_filename}\nDimensions of image: ({height}, {width}, {channels})\nAverage runtime running {implementation_filename} after 3 runs: {average} s\nTiming performed using: time.time()"
 
         # Add speedup to report-string if compared with any other files
         if report_files:
             for file in report_files:
+                # Calculate speedup
                 speedup = self.calculate_speedup_filter(float(average), file)
+
+                # Check for exceptions
+                if type(speedup) == Exception:
+                    raise speedup
+
+                # Add speedup-string
                 bits = file.split("/")
                 other_file = ""
                 if type(bits) == list:
@@ -89,7 +129,7 @@ class Color2():
                 else:
                     other_file = bits
                 imp, x, algo = other_file.split("_")
-                report += f"\nAverage runtime running of {implementation} is {speedup} times faster than {imp}_{algo}"
+                report += f"\nAverage runtime running of {implementation_filename} is {speedup} times faster than {imp}_{algo}"
         
         return report
                 
@@ -123,7 +163,7 @@ class Color2():
                 average += (end - start)
 
         average = average / runs
-        average = "{:.3f}".format(average)
+        average = "{:.4f}".format(average)
 
         return average
 
@@ -139,7 +179,12 @@ class Color2():
         
         Returns:
             speedup (float): The speedup from the filter-implementation that called the method to the filter-implementation from the report
+            FileNotFoundError: If report_filename is not found
         """
+        # Check if report-file and -path exists
+        if not os.path.exists(report_filename):
+            raise FileNotFoundError(report_filename)
+
         # Find average runtime of other filter-implementation
         f = open(report_filename)
         next = 0
@@ -159,7 +204,38 @@ class Color2():
         
         # Calculate speedup
         speedup = other_time / time
-        speedup = "{:.3f}".format(speedup) # 3 decimals
+        speedup = "{:.4f}".format(speedup) # 4 decimals
 
         # Return speedup
         return speedup
+
+    
+    # 4.1 and 4.2:
+    def save_report(self, report, output_filename, output_directory):
+        """
+        Saves report with given name to given directory
+
+        Args:
+            report (str): The report that is to be saved to file
+            output_filename (str): The name of the file that is to be saved
+            output_directory (str): The path where the file is to be saved
+        
+        Returns:
+            FileNotFoundError: If output_directory is not found
+        """
+        # Check if output-directory exists
+        if not os.path.exists(output_directory):
+            raise FileNotFoundError(output_directory)
+        
+        # Save old path
+        old_path = os.getcwd() 
+
+        # Change save-location
+        os.chdir(output_directory) 
+
+        # Write report to file
+        f = open(output_filename, "w")
+        f.write(report)
+
+        # Go back to old path
+        os.chdir(old_path)

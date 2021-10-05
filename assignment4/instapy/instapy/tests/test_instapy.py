@@ -1,13 +1,7 @@
 # Packages needed for tests
 import numpy as np
 import os
-# The classes with the functions to be tested
-from filters import PythonColor2Gray
-from filters import NumpyColor2Gray
-from filters import NumbaColor2Gray
-from filters import PythonColor2Sepia
-from filters import NumpyColor2Sepia
-from filters import NumbaColor2Sepia
+import instapy as ip # The instapy-package with all filter-classes containing the different methods
 
 def test_grayscale_filter_color2gray():
     """
@@ -20,13 +14,13 @@ def test_grayscale_filter_color2gray():
     a = generate_random_3D_array()
 
     # Get result from python implementation 
-    python_a = PythonColor2Gray().grayscale_filter(a)
+    python_a = ip.python_color_2_gray.grayscale_filter(a)
 
     # Get result from numpy implementation 
-    numpy_a = NumpyColor2Gray().grayscale_filter(a)
+    numpy_a = ip.numpy_color_2_gray.grayscale_filter(a)
 
     # Get result from numba implementation 
-    numba_a = NumbaColor2Gray().grayscale_filter(a)
+    numba_a = ip.numba_color_2_gray.grayscale_filter(a)
 
     # Compare results by checking a random index in the grayscale images against the expected value (the weighted average)
     # Find random index
@@ -52,13 +46,13 @@ def test_sepia_filter_color2sepia():
     a = generate_random_3D_array()
 
     # Get result from python implementation 
-    python_a = PythonColor2Sepia().sepia_filter(a)
+    python_a = ip.python_color_2_sepia.sepia_filter(a)
 
     # Get result from numpy implementation 
-    numpy_a = NumpyColor2Sepia().sepia_filter(a)
+    numpy_a = ip.numpy_color_2_sepia.sepia_filter(a)
 
     # Get result from numba implementation 
-    numba_a = NumbaColor2Sepia().sepia_filter(a)
+    numba_a = ip.numba_color_2_sepia.sepia_filter(a)
 
     # Compare results by checking a random index in the sepia images against the expected value (the weighted average)
     # Find random index
@@ -83,30 +77,30 @@ def test_grayscale_image_color2gray():
     Returns:
         AssertionError: If one of the tests don't go through, returns AssertionError. Else, returns nothing.
     """
-    # Check if creating image with a file that doesnt contain an image results in TypeError 
-    try:
-        NumpyColor2Gray().grayscale_image("tests/test_images/rain.py")
-    except Exception as e:
-        assert type(e) == TypeError
-
     # Check if creating image with a file path that doesnt exist results in FileNotFoundError
     try:
-        NumpyColor2Gray().grayscale_image("tests/test_images/rain2.jpg")
+        ip.numpy_color_2_gray.grayscale_image("test_images/rain2.jpg")
     except Exception as e:
         assert type(e) == FileNotFoundError
 
+    # Check if creating image with a file that doesnt contain an image results in TypeError 
+    try:
+        ip.numpy_color_2_gray.grayscale_image("test_images/rain.py")
+    except Exception as e:
+        assert type(e) == TypeError
+
     # Check if image gets created in correct place with correct name when not giving output-filename and -path 
-    if os.path.exists("tests/test_images/rain_grayscale.jpg"):
-        os.remove("tests/test_images/rain_grayscale.jpg")
-    a = NumpyColor2Gray().grayscale_image("tests/test_images/rain.jpg")
-    assert os.path.exists("tests/test_images/rain_grayscale.jpg")
+    if os.path.exists("test_images/rain_grayscale.jpg"):
+        os.remove("test_images/rain_grayscale.jpg")
+    a = ip.numpy_color_2_gray.grayscale_image("test_images/rain.jpg")
+    assert os.path.exists("test_images/rain_grayscale.jpg")
     # No need to check if the returned value a is correct, as this can be checked in test_grayscale_filter_color2gray as it utilizes the same method for the conversion.
 
     # Check if image gets created in correct place with correct name when giving output-filename and -path 
-    if os.path.exists("tests/test_images/rain_grayscale2.jpg"):
-        os.remove("tests/test_images/rain_grayscale2.jpg")
-    a = NumpyColor2Gray().grayscale_image("tests/test_images/rain.jpg", "tests/test_images/rain_grayscale2.jpg")
-    assert os.path.exists("tests/test_images/rain_grayscale2.jpg")
+    if os.path.exists("test_images/rain_grayscale2.jpg"):
+        os.remove("test_images/rain_grayscale2.jpg")
+    a = ip.numpy_color_2_gray.grayscale_image("test_images/rain.jpg", "test_images/rain_grayscale2.jpg")
+    assert os.path.exists("test_images/rain_grayscale2.jpg")
 
 
 def test_sepia_image_color2sepia():
@@ -118,28 +112,28 @@ def test_sepia_image_color2sepia():
     """
     # Check if creating image with a file that doesnt contain an image results in TypeError 
     try:
-        NumpyColor2Sepia().sepia_image("tests/test_images/rain.py")
+        ip.numpy_color_2_sepia.sepia_image("test_images/rain.py")
     except Exception as e:
         assert type(e) == TypeError
 
     # Check if creating image with a file path that doesnt exist results in FileNotFoundError
     try:
-        NumpyColor2Sepia().sepia_image("tests/test_images/rain2.jpg")
+        ip.numpy_color_2_sepia.sepia_image("test_images/rain2.jpg")
     except Exception as e:
         assert type(e) == FileNotFoundError
 
     # Check if image gets created in correct place with correct name when not giving output-filename and -path 
-    if os.path.exists("tests/test_images/rain_sepia.jpg"):
-        os.remove("tests/test_images/rain_sepia.jpg")
-    a = NumpyColor2Sepia().sepia_image("tests/test_images/rain.jpg")
-    assert os.path.exists("tests/test_images/rain_sepia.jpg")
+    if os.path.exists("test_images/rain_sepia.jpg"):
+        os.remove("test_images/rain_sepia.jpg")
+    a = ip.numpy_color_2_sepia.sepia_image("test_images/rain.jpg")
+    assert os.path.exists("test_images/rain_sepia.jpg")
     # No need to check if the returned value a is correct, as this can be checked in test_sepia_filter_color2sepia as it utilizes the same method for the conversion.
 
     # Check if image gets created in correct place with correct name when giving output-filename and -path 
-    if os.path.exists("tests/test_images/rain_sepia2.jpg"):
-        os.remove("tests/test_images/rain_sepia2.jpg")
-    a = NumpyColor2Sepia().sepia_image("tests/test_images/rain.jpg", "tests/test_images/rain_sepia2.jpg")
-    assert os.path.exists("tests/test_images/rain_sepia2.jpg")
+    if os.path.exists("test_images/rain_sepia2.jpg"):
+        os.remove("test_images/rain_sepia2.jpg")
+    a = ip.numpy_color_2_sepia.sepia_image("test_images/rain.jpg", "test_images/rain_sepia2.jpg")
+    assert os.path.exists("test_images/rain_sepia2.jpg")
 
 
 def test_report_grayscale_filter_color2gray():
@@ -153,34 +147,34 @@ def test_report_grayscale_filter_color2gray():
 
     # Check if creating report with image that doesn't exits result in FileNotFoundError
     try:
-        PythonColor2Gray().report_grayscale_filter("tests/test_images/rain2.jpg", "tests/reports")
+        ip.python_color_2_gray.report_grayscale_filter("test_images/rain2.jpg", "reports")
     except Exception as e:
         assert type(e) == FileNotFoundError
 
     # Check if report can be saved normally to reports
-    PythonColor2Gray().report_grayscale_filter("tests/test_images/rain.jpg", "tests/reports")
-    assert os.path.exists("tests/reports/python_report_color2gray.txt")
+    ip.python_color_2_gray.report_grayscale_filter("test_images/rain.jpg", "reports")
+    assert os.path.exists("reports/python_report_color2gray.txt")
 
     # Test the numpy report_grayscale_filter
 
     # Check if report can be saved normally to reports
-    NumpyColor2Gray().report_grayscale_filter("tests/test_images/rain.jpg", "tests/reports")
-    assert os.path.exists("tests/reports/numpy_report_color2gray.txt")
+    ip.numpy_color_2_gray.report_grayscale_filter("test_images/rain.jpg", "reports")
+    assert os.path.exists("reports/numpy_report_color2gray.txt")
 
     # Check if the runtime can be compared with the runtime from the report for the python-implementation 
-    NumpyColor2Gray().report_grayscale_filter("tests/test_images/rain.jpg", "tests/reports", "tests/reports/python_report_color2gray.txt")
-    assert os.path.exists("tests/reports/numpy_report_color2gray.txt")
+    ip.numpy_color_2_gray.report_grayscale_filter("test_images/rain.jpg", "reports", "reports/python_report_color2gray.txt")
+    assert os.path.exists("reports/numpy_report_color2gray.txt")
 
 
     # Test the numba report_grayscale_filter
 
     # Check if report can be saved normally to reports
-    NumbaColor2Gray().report_grayscale_filter("tests/test_images/rain.jpg", "tests/reports")
-    assert os.path.exists("tests/reports/numba_report_color2gray.txt")
+    ip.numba_color_2_gray.report_grayscale_filter("test_images/rain.jpg", "reports")
+    assert os.path.exists("reports/numba_report_color2gray.txt")
 
     # Check if the runtime can be compared with the runtime from the report for the python-implementation and the numpy-implementation
-    NumbaColor2Gray().report_grayscale_filter("tests/test_images/rain.jpg", "tests/reports", "tests/reports/python_report_color2gray.txt", "tests/reports/numpy_report_color2gray.txt")
-    assert os.path.exists("tests/reports/numba_report_color2gray.txt")
+    ip.numba_color_2_gray.report_grayscale_filter("test_images/rain.jpg", "reports", "reports/python_report_color2gray.txt", "reports/numpy_report_color2gray.txt")
+    assert os.path.exists("reports/numba_report_color2gray.txt")
 
 
 def test_report_sepia_filter_color2sepia():
@@ -194,32 +188,32 @@ def test_report_sepia_filter_color2sepia():
 
     # Check if creating report with image that doesn't exits result in FileNotFoundError
     try:
-        PythonColor2Sepia().report_sepia_filter("tests/test_images/rain2.jpg", "tests/reports")
+        ip.python_color_2_sepia.report_sepia_filter("test_images/rain2.jpg", "reports")
     except Exception as e:
         assert type(e) == FileNotFoundError
     # Check if report can be saved normally to reports
-    PythonColor2Sepia().report_sepia_filter("tests/test_images/rain.jpg", "tests/reports")
-    assert os.path.exists("tests/reports/python_report_color2sepia.txt")
+    ip.python_color_2_sepia.report_sepia_filter("test_images/rain.jpg", "reports")
+    assert os.path.exists("reports/python_report_color2sepia.txt")
 
     # Test the numpy report_sepia_filter
 
     # Check if report can be saved normally to reports
-    NumpyColor2Sepia().report_sepia_filter("tests/test_images/rain.jpg", "tests/reports")
-    assert os.path.exists("tests/reports/numpy_report_color2sepia.txt")
+    ip.numpy_color_2_sepia.report_sepia_filter("test_images/rain.jpg", "reports")
+    assert os.path.exists("reports/numpy_report_color2sepia.txt")
 
     # Check if the runtime can be compared with the runtime from the report for the python-implementation 
-    NumpyColor2Sepia().report_sepia_filter("tests/test_images/rain.jpg", "tests/reports", "tests/reports/python_report_color2sepia.txt")
-    assert os.path.exists("tests/reports/numpy_report_color2sepia.txt")
+    ip.numpy_color_2_sepia.report_sepia_filter("test_images/rain.jpg", "reports", "reports/python_report_color2sepia.txt")
+    assert os.path.exists("reports/numpy_report_color2sepia.txt")
 
     # Test the numba report_sepia_filter
 
     # Check if report can be saved normally to reports
-    NumbaColor2Sepia().report_sepia_filter("tests/test_images/rain.jpg", "tests/reports")
-    assert os.path.exists("tests/reports/numba_report_color2sepia.txt")
+    ip.numba_color_2_sepia.report_sepia_filter("test_images/rain.jpg", "reports")
+    assert os.path.exists("reports/numba_report_color2sepia.txt")
 
     # Check if the runtime can be compared with the runtime from the report for the python-implementation and the numpy-implementation
-    NumbaColor2Sepia().report_sepia_filter("tests/test_images/rain.jpg", "tests/reports", "tests/reports/python_report_color2sepia.txt", "tests/reports/numpy_report_color2sepia.txt")
-    assert os.path.exists("tests/reports/numba_report_color2sepia.txt")
+    ip.numba_color_2_sepia.report_sepia_filter("test_images/rain.jpg", "reports", "reports/python_report_color2sepia.txt", "reports/numpy_report_color2sepia.txt")
+    assert os.path.exists("reports/numba_report_color2sepia.txt")
 
 
 def generate_random_3D_array():
@@ -230,30 +224,3 @@ def generate_random_3D_array():
         numpy integer 3D array: random 3D array
     """
     return np.random.randint(0, 255, size = (200, 251, 3))
-
-
-
-if __name__ == "__main__":
-    print("Running grayscale_filter tests")
-    test_grayscale_filter_color2gray()
-    print("grayscale_filter tests finished without errors\n")
-
-    print("Running sepia_filter tests")
-    test_sepia_filter_color2sepia()
-    print("sepia_filter tests finished without errors\n")
-
-    print("Running grayscale_image tests")
-    test_grayscale_image_color2gray()
-    print("grayscale_image tests finished without errors\n")
-
-    print("Running sepia_image tests")
-    test_sepia_image_color2sepia()
-    print("sepia_image tests finished without errors\n")
-
-    print("Running report_grayscale_filter tests")
-    test_report_grayscale_filter_color2gray()
-    print("report_grayscale_filter tests finished without errors\n")
-
-    print("Running report_sepia_filter tests")
-    test_report_sepia_filter_color2sepia()
-    print("report_sepia_filter tests finished without errors")

@@ -1,9 +1,7 @@
-import sys 
-sys.path.append("..")
-from color2 import Color2
 import numpy as np
+import instapy as ip
 
-class NumpyColor2Sepia(Color2):
+class NumpyColor2Sepia(ip.color_2):
     # 4.2:
     def sepia_filter(self, image):
         """
@@ -25,8 +23,10 @@ class NumpyColor2Sepia(Color2):
         # Make the sepia_image
         # Make sure to avoid an overflow when the sum exceeds 255 (uint8 har a max of 255), while keeping the same ratio between the pixels in the image at the correct value relative to each other. Do this by multiplying all of the sums with 0.718, as the largest possible number is 355 for the red value, and 255 / 355 is 0.718.
         sepia_matrix = np.dot(0.718, sepia_matrix)
+        
         # Multiply each color value with the corresponding channel of a pixel with the BGR ordered sepia_matrix
         image = np.dot(image[...,:3], sepia_matrix)
+
         # Convert to int
         image = image.astype(int)
 

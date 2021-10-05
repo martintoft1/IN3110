@@ -1,9 +1,7 @@
-import sys 
-sys.path.append("..")
-from color2 import Color2
+import instapy as ip
 import numpy as np
 
-class NumpyColor2Gray(Color2):
+class NumpyColor2Gray(ip.color_2):
     # 4.1:
     def grayscale_filter(self, image):
         """
@@ -20,6 +18,9 @@ class NumpyColor2Gray(Color2):
 
         # Make the grayscale image
         image = np.dot(image[...,:3], [0.07, 0.72, 0.21])
+
+        # Convert values to int
+        image = image.astype(int)
 
         # Return the grayscale image
         return image

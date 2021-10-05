@@ -10,11 +10,11 @@ python3 -m pip install -r requirements.txt
 
 ### Functionality 
 
-The different files in this task contains different classes with methods for converting a color-image to a grayscale-image. The different classes also contain methods for writing a report of the average runtime of a grayscale conversion to a file, which can compare the runtime with the runtime of other conversions
+The different files in this task contains different classes with methods for converting a color-image to a grayscale-image and returning it. The different classes also contain methods for writing a report of the average runtime of a grayscale conversion to a file, which can compare the runtime with the runtime of other conversions
 
 ### Usage
 
-To convert a color-image to a grayscale-image the user needs to run the following command on one of the Color2Gray-classes in python
+To convert a color-image to a grayscale-image and return it the user needs to run the following command on one of the Color2Gray-classes in python
 
 ```python
 grayscale_filter(image)
@@ -80,7 +80,7 @@ To convert an image to a grayscale image and save it to a given location the use
 grayscale_image(input_filename_image, output_filename_image)
 ```
 
-where output_filename_image is the new filename and path to the grayscale image. output_filename_image can be empty, and if it is the grayscale image will be saved to instapy/filters/tests/test_images.
+where output_filename_image is the new filename and path to the grayscale image. output_filename_image can be empty, and if it is the grayscale image will be saved to the same directory as input_filename_image.
 
 To convert an image to a sepia image and save it to a given location the user needs to run the following command on a NumpyColor2Sepia-object in python
 
@@ -88,10 +88,10 @@ To convert an image to a sepia image and save it to a given location the user ne
 sepia_image(input_filename_image, output_filename_image)
 ```
 
-where output_filename_image is the new filename and path to the sepia image. output_filename_image can be empty, and if it is the sepia image will be saved to instapy/filters/tests/test_images.
+where output_filename_image is the new filename and path to the sepia image. output_filename_image can be empty, and if it is the sepia image will be saved to the same directory as input_filename_image.
 
-To run the tests for task 4.1 and 4.2, the user first needs to install the instapy-package. After doing so, the user needs to move to the root-directory of the package and run the following command
+To run the tests for tasks, the user first needs to install the instapy-package. After doing so, the user needs to move to the filter-module in the package and run the following command
 
 ```
-python3 -m tests.test_instapy.py
+python3 -m tests.test_instapy
 ```

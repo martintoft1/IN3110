@@ -23,10 +23,10 @@ grayscale_filter(image)
 To write a report of the convertion to a file, the user needs to run the following command on one of the Color2Gray-classes in python
 
 ```python
-report_grayscale_filter(filename, *report_files)
+report_grayscale_filter(input_filename, output_directory,  *report_files)
 ```
 
-where *report_files is the file-path to the reports of the other implementations that filename is to be compared with. *report_files can be empty.
+where input_filename is the image that is to be converted, output_directory is the path to which the report should be saved, and *report_files is the file-path to the reports of the other implementations that filename is to be compared with. *report_files can be empty.
 
 
 ## Task 4.2
@@ -50,10 +50,10 @@ sepia_filter(image)
 To write a report of the convertion to a file, the user needs to run the following command on one of the Color2Sepia-classes in python
 
 ```python
-report_sepia_filter(filename, *report_files)
+report_sepia_filter(input_filename, output_directory,  *report_files)
 ```
 
-where *report_files is the file-path to the reports of the other implementations that filename is to be compared with. *report_files can be empty.
+where input_filename is the image that is to be converted, output_directory is the path to which the report should be saved, and *report_files is the file-path to the reports of the other implementations that filename is to be compared with. *report_files can be empty.
 
 
 ## Task 4.3

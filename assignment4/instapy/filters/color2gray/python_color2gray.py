@@ -36,7 +36,8 @@ class PythonColor2Gray(Color2):
         Method for automatically writing and saving a report of the grayscale_filter-function on a given image with the python-implementation
 
         args:
-            image_filename (str): The filename and -path to the image that was used for the filter-function
+            input_filename (str): The filename and -path to the image that was used for the filter-function
+            output_directory (str): The folder where the report should be saved
             *report_files (tuple): The filenames and -paths to the other reports that this method is to compare runtimes with
         """
         # Get report

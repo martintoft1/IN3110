@@ -90,8 +90,8 @@ sepia_image(input_filename_image, output_filename_image)
 
 where output_filename_image is the new filename and path to the sepia image. output_filename_image can be empty, and if it is the sepia image will be saved to the same directory as input_filename_image.
 
-To run the tests for tasks, the user first needs to install the instapy-package. After doing so, the user needs to move to the filter-module in the package and run the following command
+To run the tests for tasks, the user first needs to install the instapy-package. After doing so, the user needs to move to the tests-folder inside the instapy-package and run the following command
 
 ```
-python3 -m tests.test_instapy
+pytest
 ```

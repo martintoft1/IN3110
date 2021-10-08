@@ -95,3 +95,24 @@ To run the tests for tasks, the user first needs to install the instapy-package.
 ```
 pytest
 ```
+
+
+## Task 4.4
+
+### Prerequisites
+
+The same as in task 4.1
+
+### Functionality
+
+User-interface-script to use the filter-methods implemented in 4.1, 4.2 and 4.3.
+
+### Usage
+
+To run the script the user must move to the root of the instapy-package, and type
+
+```python
+instapy <flags>
+```
+
+where <flags> is the different flags that the user can use to use different functionality in the script. Use the flag -h to get all the different flags and their description.

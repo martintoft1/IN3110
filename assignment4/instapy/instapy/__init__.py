@@ -1,15 +1,17 @@
 # Import classes with methods that are to be used in the package
+# Numba
+from numba import jit
+numba_jit = jit
+
 # Class with common filter methods
-from .color2 import Color2
+from instapy.color2 import Color2
 color_2 = Color2
 
 # Python gray filter
-from .color2gray.python_color2gray import PythonColor2Gray
+from instapy.color2gray.python_color2gray import PythonColor2Gray
 python_color_2_gray = PythonColor2Gray()
 
 # Numpy gray filter
-from numba import jit
-numba_jit = jit
 from .color2gray.numpy_color2gray import NumpyColor2Gray
 numpy_color_2_gray = NumpyColor2Gray()
 

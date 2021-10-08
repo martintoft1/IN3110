@@ -4,5 +4,5 @@ setup(
     name="instapy",
     version="1.0",
     packages=["instapy"],
-    scripts=["bin/instapy.py"]
+    scripts=["bin/instapy"]
 )

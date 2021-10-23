@@ -3,6 +3,9 @@ import numpy as np
 import os
 import instapy as ip # The instapy-package with all filter-classes containing the different methods
 
+#Makes the random values consistent between runs
+np.random.seed(0)
+
 def test_grayscale_filter_color2gray():
     """
     Checks the grayscale_filter functions in all implementations
@@ -224,4 +227,3 @@ def generate_random_3D_array():
         numpy integer 3D array: random 3D array
     """
     return np.random.randint(0, 255, size = (200, 251, 3))
-    

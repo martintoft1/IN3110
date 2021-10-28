@@ -4,13 +4,19 @@
 
 declare -i running=0
 
-LOGFILE=".timer_logfile"
+export LOGFILE=~/.local/share/.timer_logfile
 
 function track {
-    # Start
+    # Check if logfile exist, if not; create it
+    if [ ! -f "$LOGFILE" ]; then
+        echo -n > $LOGFILE
+    fi
+    
+    # Check if given a command
     if [[ $# -lt 1 ]]; then 
         echo "Missing a command to track."; 
-
+    
+    # Start
     elif [[ "$1" == "start" ]]; then
         if [[ $# -lt 2 ]]; then
             echo "Missing a label. Correct way to use the start-command is: track start <'label'>."; 

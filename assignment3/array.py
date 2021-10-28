@@ -262,7 +262,7 @@ class Array:
 
         Raises:
             ValueError: if the shape of self and other are not equal.
-            NotImplemented: if the types of self and other are not equal.
+            TypeError: if the types of self and other are not equal.
 
         """
         if self.same_type(other):
@@ -286,7 +286,7 @@ class Array:
             return Array((self._length,), *tuple(newElements))
         elif isinstance(other, Array):
             if isinstance(other[0], bool) or isinstance(other[0], int) or isinstance(other[0], float):
-                return NotImplemented
+                return TypeError
         else:
             return TypeError
             

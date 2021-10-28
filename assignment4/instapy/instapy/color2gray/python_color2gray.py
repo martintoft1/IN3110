@@ -49,4 +49,3 @@ class PythonColor2Gray(ip.color_2):
 
         # Write report to file
         self.save_report(report, "python_report_color2gray.txt", output_directory)
-        

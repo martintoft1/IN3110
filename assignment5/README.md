@@ -16,7 +16,7 @@ In this task we were tasked to make the file requesting_urls.py which contains t
 To get the html source-file as a string, the user needs to run the following command in python
 
 ```python
-get_html(url, params, output):
+get_html(url, params, output)
 ```
 
 where params is the optional parameters for getting only parts of the html source-file, and output is the optional name of the txt-file that the html source-file string is to be written to. 
@@ -45,3 +45,20 @@ find_articles(url, output)
 ```
 
 where url is the url of the wikipedia-page, and output is the optional name of the txt-file that the articles are to be written to. 
+
+## Task 5.3
+
+### Prerequisites
+Read Prerequisites in Task 5.1.
+
+### Functionality
+In this task we were tasked to make the file collect_dates.py which contains the function find_dates. The find_dates-function finds and returns a list with all the dates from a webpage in sorted order. The function also gives the user the option of writing the lists to .txt-files located in the collect_dates_regex-folder.
+
+### Usage
+To get all the dates from a webpage, the user needs to run the following command in python
+
+```python
+find_dates(url, output)
+```
+
+where url is the url of the page that is scanned for dates, and output is the optional name of the txt-file that the dates are to be written to. 

@@ -62,3 +62,28 @@ find_dates(url, output)
 ```
 
 where url is the url of the page that is scanned for dates, and output is the optional name of the txt-file that the dates are to be written to. 
+
+## Task 5.4
+
+### Prerequisites
+Read Prerequisites in Task 5.1.
+
+### Functionality
+In this task we were tasked to make the file time_planner.py which contains the functions extract_events and create_betting_slip. The time_planner-function finds and returns a list with all the events from a wikipedia-page for the 2021–22 FIS Alpine Ski World Cup, and potentially other wikipedia-pages with events if they follow the same format. The create_betting_slip-function saves a markdown betting slip produced with data from a set of events.
+
+### Usage
+To get the events from the webpage(s), the user needs to run the following command in python
+
+```python
+time_planner(url)
+```
+
+where url is the url of the page that is scanned for events.
+
+To make the betting slip for a set of events, the user need to run the following command in python
+
+```python
+create_betting_slip(events, save_as)
+```
+
+where events is the events, and save_as is the name of the .md-file.

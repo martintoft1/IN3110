@@ -241,7 +241,7 @@ def plot_NBA_player_statistics(teams, statistic):
         names = []
         statistics = []
         for player in players:
-            for key, val in player:
+            for key, val in player.items():
                 names.append(key)
                 statistics.append(val)
 

@@ -74,6 +74,8 @@ def find_urls(html_str, base_url=None, output=None):
             urls_str += url + "\n"
 
         # Write to file
+        # Check if directory exists
+        os.makedirs("filter_urls", exist_ok=True)
         # Save current directory
         path = os.getcwd()
         # Switch to "filter_urls"-directory and write to file

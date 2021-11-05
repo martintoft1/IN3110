@@ -5,17 +5,17 @@ import os
 
 def get_html(url, params=None, output=None):
     """
-    Gets and returns a html source-file from an url.
+    Gets and returns a html source-file string from an url.
 
     If the params-argument is given, the function gets and returns the data of the specified type. If the output-argument is given, the function prints the response-text and url to a txt-file with the name in the output-argument.
 
     Args:
-        url (str):
-        params (dict):
-        output (str):
+        url (str): The url of the webpage that the function gets the html string from
+        params (dict): Dictionary containing the parameters that are to be used when getting the html-reponse
+        output (str): Name of the txt-file that the html string should be written to
 
     Returns:
-        html_str (str): The response-text from the get-request
+        html_str (str): The string containing the source-file
     """
     # Execute the get-request
     response = req.get(url, params=params)
@@ -28,6 +28,8 @@ def get_html(url, params=None, output=None):
 
     # Check if the output-argument was given
     if output:  # Write to file with name "ouput.txt" in the "requesting_urls"-directory
+        # Check if directory exists
+        os.makedirs("requesting_urls", exist_ok=True)
         # Save current directory
         path = os.getcwd()
         # Switch to "requesting_urls"-directory and write to file
@@ -42,7 +44,7 @@ def get_html(url, params=None, output=None):
     return html_str
 
 
-# TODO: Move this to a test-file in a test-folder
+# Tests to see if the get_html-function works correctly
 def test_get_html():
     # Check Studio_Ghibli-page
     # Without output

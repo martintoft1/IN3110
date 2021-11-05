@@ -2,7 +2,7 @@
 from requesting_urls import get_html  
 import re  # Regex
 from bs4 import BeautifulSoup
-import os
+import os  
 
 
 def extract_events(url):

@@ -121,6 +121,8 @@ def find_dates(url, output=None):
             dates_str += date + "\n"
 
         # Write to file
+        # Check if directory exists
+        os.makedirs("collect_dates_regex", exist_ok=True)
         # Save current directory
         path = os.getcwd()
         # Switch to "collect_dates_regex"-directory and write to file

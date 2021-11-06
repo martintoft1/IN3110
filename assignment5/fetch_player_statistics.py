@@ -210,74 +210,6 @@ def extract_player_statistics(player_url):
     return ppg, bpg, rpg
 
 
-def plot_NBA_player_statistics(teams, statistic):
-    """Plots NBA player statistics.
-    
-    Args:
-        teams (dict): A dictionary containing lists with tuples of NBA player statistics, where the key to each dictionary is the players' team. The tuples furthermore contain the attributes "name" which is the player's name, and "ppg" which is the player's average score per game.
-        statistic (str): ppg, bpg or rpg
-    """
-
-    count_so_far = 0
-    all_names = []
-
-    # 8 different colors to choose from since we have 8 teams
-    colors = ["b", "g", "r", "c", "m", "y", "k", "w"]
-
-    # Choose plot-colors for each team
-    color_table = []
-    i = 0
-    for team, players in teams.items():
-        color_table.append({team: colors[i]})
-        i += 1
-
-    # Iterate through each team 
-    i = 0
-    for team, players in teams.items():
-        # Pick the color for the team
-        color = color_table[i][team]
-        
-        # Collect the statistic and name of each player on the team
-        names = []
-        statistics = []
-        for player in players:
-            for key, val in player.items():
-                names.append(key)
-                statistics.append(val)
-
-        # Record all the names, for use later in x label
-        all_names.extend(names)
-
-        # The position of bars is shifted by the number of players so far
-        x = range(count_so_far, count_so_far + len(players))
-        count_so_far += len(players)
-
-        # Make bars for this team's players ppg, bpg and rpg, with
-        # the team name as the label, and the value as text on the bars
-        # Ppg
-        bars = plt.bar(x, statistic, color=color, label=team)
-        plt.bar_label(bars)
-
-        i += 1
-
-    # Make the plots
-    # Use the names, rotated 90 degrees as the labels for the bars
-    plt.xticks(range(len(all_names)), all_names, rotation=90)
-    # Add the legend with the colors  for each team
-    plt.legend(loc=0)
-    # Turn off gridlines
-    plt.grid(False)
-    # Set the title
-    if statistic == "ppg":
-        plt.title("points per game")
-    elif statistic == "bpg":
-        plt.title("blocks per game")
-    elif statistic == "rpg":
-        plt.title("rebounds per game")
-    # Save figure to file
-    plt.savefig(f"{statistic}.png")
-
-
 def find_top_three_each_team(url):
     """Finds the top three players for each team in the NBA Playoff 2020-2021 that made it to the conference semifinals based on different statistics.
     
@@ -285,6 +217,10 @@ def find_top_three_each_team(url):
 
     Args:
         url (str): The url for the wikipedia-page containing the bracket with the teams.
+    Returns:
+        teams_ppg (dict): Dictionary with team-names as keys, and lists as values, each containing three dicts with the teams' top three ppg-players.
+        teams_bpg (dict): Dictionary with team-names as keys, and lists as values, each containing three dicts with the teams' top three bpg-players.
+        teams_rpg (dict): Dictionary with team-names as keys, and lists as values, each containing three dicts with the teams' top three rpg-players.
     """
     # Get team names and urls
     team_names, team_urls = extract_team_urls(url)
@@ -312,6 +248,7 @@ def find_top_three_each_team(url):
         top_three_rpg = []
         # Find top 3 ppg for team
         for j in range(len(team_player_urls[i])):
+            # Get stats and name for player
             ppg, bpg, rpg = extract_player_statistics(team_player_urls[i][j])
             player_name = team_player_names[i][j]
 
@@ -321,27 +258,48 @@ def find_top_three_each_team(url):
                 top_three_rpg.append({player_name: rpg})
 
             else:
+                # Temporary saves of player_name and ppg to be able to move the 
+                # players in the lists around if we find someone with a higher score than one of the players
+                temp_player_name = player_name
+                temp_ppg = ppg
+                # Find highest ppg
                 for k in range(3):
                     for other_player_name, other_ppg in top_three_ppg[k].items():
-                        if ppg > other_ppg:
-                            top_three_ppg[k] = {player_name: ppg}
+                        if temp_ppg > other_ppg:
+                            top_three_ppg[k] = {temp_player_name: temp_ppg}
+                            # Save other player and continue for loop to see if there are players with lower scores than other_player
+                            temp_player_name = other_player_name
+                            temp_ppg = other_ppg
 
+                # Same as above for bpg
+                temp_player_name = player_name
+                temp_bpg = bpg
+                # Find highest bpg
                 for k in range(3):
                     for other_player_name, other_bpg in top_three_bpg[k].items():
-                        if ppg > other_bpg:
-                            top_three_bpg[k] = {player_name: bpg}
+                        if temp_bpg > other_bpg:
+                            top_three_bpg[k] = {temp_player_name: temp_bpg}
+                            # Save other player and continue for loop to see if there are players with lower scores than other_player
+                            temp_player_name = other_player_name
+                            temp_bpg = other_bpg
 
+                # Same as above for rpg
+                temp_player_name = player_name
+                temp_rpg = rpg
+                # Find highest rpg
                 for k in range(3):
                     for other_player_name, other_rpg in top_three_rpg[k].items():
-                        if ppg > other_rpg:
-                            top_three_rpg[k] = {player_name: rpg}
+                        if temp_rpg > other_rpg:
+                            top_three_rpg[k] = {temp_player_name: temp_rpg}
+                            # Save other player and continue for loop to see if there are players with lower scores than other_player
+                            temp_player_name = other_player_name
+                            temp_rpg = other_rpg
                         
             
             teams_ppg[team_names[i]] = top_three_ppg
             teams_bpg[team_names[i]] = top_three_bpg
             teams_rpg[team_names[i]] = top_three_rpg
                     
-
     # Plot the stats
     plot_NBA_player_statistics(teams_ppg, "ppg")
     plot_NBA_player_statistics(teams_bpg, "bpg")
@@ -349,6 +307,85 @@ def find_top_three_each_team(url):
 
     # Return the dictionaries
     return teams_ppg, teams_bpg, teams_rpg
+
+
+def plot_NBA_player_statistics(teams, statistic):
+    """Plots NBA player statistics.
+    
+    Args:
+        teams (dict): A dictionary containing lists with dicts of NBA player statistics, where the key to each dictionary is the players' team. The dicts contain the the player's name as key, and the float-value of the statistic as value.
+        statistic (str): ppg, bpg or rpg
+    """
+
+    count_so_far = 0
+    all_names = []
+
+    # 8 different colors to choose from since we have 8 teams
+    colors = ["b", "g", "r", "c", "m", "y", "k", "gray"]
+
+    # Choose plot-colors for each team
+    color_table = []
+    i = 0
+    for team, players in teams.items():
+        color_table.append({team: colors[i]})
+        i += 1
+
+    # Iterate through each team 
+    i = 0
+    for team, players in teams.items():
+        # Pick the color for the team
+        color = color_table[i][team]
+        
+        # Collect the statistic and name of each player on the team
+        names = []
+        statistics = []
+        for player in players:
+            for key, val in player.items():
+                names.append(key)
+                statistics.append(val)
+
+        # Record all the names, for use later in x label
+        all_names.extend(names)
+
+        # Shift the position of bars by the number of players so far, and increase the count of players
+        x = range(count_so_far, count_so_far + len(players))
+        count_so_far += len(players)
+
+        # Make bars for this team's players statistics with the team name as the label
+        plt.bar(x, statistics, color=color, label=team)
+        #plt.bar_label(bars)
+
+        i += 1
+
+    # Put together the plots, and add title
+    # Use the names, rotated 90 degrees as the labels for the bars
+    plt.xticks(range(len(all_names)), all_names, rotation=90)
+    # Add the legend with the colors for each team
+    plt.legend(loc=0)
+    # Turn off gridlines
+    plt.grid(False)
+    # Set the title
+    if statistic == "ppg":
+        plt.title("points per game")
+    elif statistic == "bpg":
+        plt.title("blocks per game")
+    elif statistic == "rpg":
+        plt.title("rebounds per game")
+
+    # Save to file
+    # Check if directory exists
+    os.makedirs("NBA_player_statistics", exist_ok=True)
+    # Save current directory
+    path = os.getcwd()
+    # Switch to "NBA_player_statistics"-directory
+    os.chdir("NBA_player_statistics")
+    # Save figure to file within directory
+    plt.savefig(f"{statistic}.png")
+    # Change back to the current directory
+    os.chdir(path)
+    
+    # Clear plot in case we want to plot other statistics
+    plt.clf()
 
 
 # Tests the find_top_three_each_team()-function

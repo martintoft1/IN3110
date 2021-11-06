@@ -91,7 +91,7 @@ where events is the events, and save_as is the name of the .md-file.
 ## Task 5.5
 
 ### Prerequisites
-Read Prerequisites in Task 5.5.
+Read Prerequisites in Task 5.1.
 
 ### Functionality
 In this task we were tasked to make the file fetch_player_statistics.py which contains different functions, all used in the find_top_three_each_team-function. This function takes in the url of the wikipedia-page containing the bracket for the NBA Playoffs 2021. The function then extracts the players of the teams that made it to the conference semifinals, calculates the top three players for three different statistics in the NBA season, makes plots for the different statistics for all the teams, and returns the lists conctaining the top three. The three statistics mentioned is points per game (ppg), blocks per game (bpg), and rebounds per game (rpg).
@@ -104,3 +104,18 @@ find_top_three_each_team(url)
 ```
 
 where url is the url of the wikipedia-page for the NBA Playoffs 2021.
+
+## Tests
+
+### Prerequisites
+Read Prerequisites in Task 5.1.
+
+### Functionaliry
+Tests all the functionality implemeted in the different tasks in assignment 5.
+
+# Usage
+To test all the functions and methods from the assignment, the user needs to run the following command from the assignment5-directory
+
+```
+py.test
+```

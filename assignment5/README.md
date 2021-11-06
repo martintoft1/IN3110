@@ -96,6 +96,9 @@ Read Prerequisites in Task 5.1.
 ### Functionality
 In this task we were tasked to make the file fetch_player_statistics.py which contains different functions, all used in the find_top_three_each_team-function. This function takes in the url of the wikipedia-page containing the bracket for the NBA Playoffs 2021. The function then extracts the players of the teams that made it to the conference semifinals, calculates the top three players for three different statistics in the NBA season, makes plots for the different statistics for all the teams, and returns the lists conctaining the top three. The three statistics mentioned is points per game (ppg), blocks per game (bpg), and rebounds per game (rpg).
 
+### Missing functionality
+The find_top_three_each_team-function could probably have been way quicker than it is now, due to the fact that the function at most has 4 for-loops. However, i do not see any ways around this at this time, and the function otherwise works as it should.
+
 ### Usage
 To find the top three for each statistic and each team, the user needs to run the following command in python
 

@@ -138,36 +138,3 @@ def find_articles(url, output=None):
         os.chdir(path)
 
     return articles
-
-
-# Tests to see if the find_urls-function works correctly
-def test_find_urls():
-    # Get urls from Nobel_Prize-page
-    html = get_html("https://en.wikipedia.org/wiki/Nobel_Prize")
-    find_urls(html, base_url="https://en.wikipedia.org", output="Nobel_Prize")
-
-    # Get urls from Bundesliga-page
-    html = get_html("https://en.wikipedia.org/wiki/Bundesliga")
-    find_urls(html, base_url="https://en.wikipedia.org", output="Bundesliga")
-
-    # Get urls from 2019-20_FIS_Alpine_Ski_World_Cup-page
-    html = get_html("https://en.wikipedia.org/wiki/2019%E2%80%9320_FIS_Alpine_Ski_World_Cup")
-    find_urls(html, base_url="https://en.wikipedia.org", output="2019-20_FIS_Alpine_Ski_World_Cup")
-
-
-# Tests to see if the find_articles-function works correctly
-def test_find_articles():
-    # Get articles from Nobel_Prize-page
-    articles = find_articles("https://en.wikipedia.org/wiki/Nobel_Prize", "Nobel_Prize")
-
-    # Get articles from Bundesliga-page
-    articles = find_articles("https://en.wikipedia.org/wiki/Bundesliga", "Bundesliga")
-
-    # Get urls from 2019-20_FIS_Alpine_Ski_World_Cup-page
-    articles = find_articles("https://en.wikipedia.org/wiki/2019%E2%80%9320_FIS_Alpine_Ski_World_Cup", "2019-20_FIS_Alpine_Ski_World_Cup")
-
-
-#if __name__ == "__main__":
-    #test_find_urls()
-    #test_find_articles()
-    

@@ -195,19 +195,3 @@ def convert_months_to_numbers(dates, year, month, day):
             dates[i] = re.sub(rf"({year})/({month})/({day})", r"\1/11/\3", dates[i])
         else:  # dec
             dates[i] = re.sub(rf"({year})/({month})/({day})", r"\1/12/\3", dates[i])
-
-
-# Tests to see if the find_dates-function works correctly
-def test_find_dates():
-    # Get dates from J._K._Rowling-page and write to file
-    dates = find_dates("https://en.wikipedia.org/wiki/J._K._Rowling", "J._K._Rowling")
-
-    # Get dates from Richard_Feynman-page and write to file
-    dates = find_dates("https://en.wikipedia.org/wiki/Richard_Feynman", "Richard_Feynman")
-
-    # Get dates from Hans_Rosling-page and write to file
-    dates = find_dates("https://en.wikipedia.org/wiki/Hans_Rosling", "Hans_Rosling")
-
-
-if __name__ == "__main__":
-    test_find_dates()

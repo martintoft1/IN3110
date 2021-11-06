@@ -386,13 +386,3 @@ def plot_NBA_player_statistics(teams, statistic):
     
     # Clear plot in case we want to plot other statistics
     plt.clf()
-
-
-# Tests the find_top_three_each_team()-function
-def test_find_top_three_each_team():
-    url = "https://en.wikipedia.org/wiki/2021_NBA_playoffs"
-    find_top_three_each_team(url)
-
-
-if __name__ == "__main__":
-    test_find_top_three_each_team()

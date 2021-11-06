@@ -136,13 +136,3 @@ def create_betting_slip(events, save_as):
         for e in events:
             date, venue, type = e 
             out_file.write(f"{date} | {venue} | {type} | \n")
-
-
-# Tests the extract_events-function
-def test_extract_events():
-    events = extract_events("https://en.wikipedia.org/wiki/2021%E2%80%9322_FIS_Alpine_Ski_World_Cup#Calendar")
-    create_betting_slip(events, "betting_slip_empty")
-
-
-if __name__ == "__main__":
-    test_extract_events()

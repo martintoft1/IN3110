@@ -42,29 +42,3 @@ def get_html(url, params=None, output=None):
 
     # Return reponse-text
     return html_str
-
-
-# Tests to see if the get_html-function works correctly
-def test_get_html():
-    # Check Studio_Ghibli-page
-    # Without output
-    html_str = get_html("https://en.wikipedia.org/wiki/Studio_Ghibli")
-    # With output
-    html_str = get_html("https://en.wikipedia.org/wiki/Studio_Ghibli", output="Studio_Ghibli")
-
-    # Check Star_Wars-page
-    # Without output
-    html_str = get_html("https://en.wikipedia.org/wiki/Star_Wars")
-    # With output
-    html_str = get_html("https://en.wikipedia.org/wiki/Star_Wars", output="Star_Wars")
-
-    # Check index-page with parameters
-    # With one parameter
-    html_str = get_html("https://en.wikipedia.org/w/index.php", params={"title": "Main_Page"})
-    # With two parameters and output
-    html_str = get_html("https://en.wikipedia.org/w/index.php", params={"title": "Main_Page", "action": "info"}, output="index")
-
-
-# Tests to see if the get_html-function works correctly
-if __name__ == "__main__":
-    test_get_html()

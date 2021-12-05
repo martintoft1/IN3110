@@ -70,9 +70,8 @@ def get_data_from_csv(columns, countries=None, start=None, end=None):
     for i in range(1, len(countries)):
         cases_df = cases_df.append(df[df["location"] == countries[i]])
    
-    # Exclude records earlier than start_date 
+    # Exclude records earlier than start_date and later than end date 
     cases_df = cases_df[cases_df["date"] >= start_date] 
-    # Exclude records later than end date
     cases_df = cases_df[cases_df["date"] <= end_date] 
 
     return cases_df
@@ -129,7 +128,7 @@ def plot_reported_cases_per_million(countries=None, start=None, end=None):
 
 
 def get_countries():
-    """Return unique country-names"""
+    """Returns unique country-names"""
     # Path to .csv file containing covid-data
     path = "owid-covid-data.csv"
 

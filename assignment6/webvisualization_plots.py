@@ -4,11 +4,10 @@
 from datetime import datetime
 import altair as alt
 import pandas as pd
-import argparse
 
 
 def get_data_from_csv(columns, countries=None, start=None, end=None):
-    """Creates pandas dataframe from .csv file.
+    """Creates pandas dataframe from a .csv-file.
 
     Data will be filtered based on data column name, list of countries to be plotted and
     time frame chosen.
@@ -105,7 +104,7 @@ def plot_reported_cases_per_million(countries=None, start=None, end=None):
 
     # Create the chart
     chart = (
-        alt.Chart(cases_df, title="Covid cases per million")
+        alt.Chart(cases_df, title="Daily new confirmed covid-19 cases per million people")
         .mark_line()
         .encode(
             x=alt.X(
@@ -127,6 +126,21 @@ def plot_reported_cases_per_million(countries=None, start=None, end=None):
         .interactive()
     )
     return chart
+
+
+def get_countries():
+    """Return unique country-names"""
+    # Path to .csv file containing covid-data
+    path = "owid-covid-data.csv"
+
+    # Read given columns from .csv file, and parse dates
+    df = pd.read_csv(
+        path,
+        sep=",",
+        usecols=["location"]
+    )
+
+    return df.location.unique()
 
 
 def main():

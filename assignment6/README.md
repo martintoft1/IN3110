@@ -50,3 +50,18 @@ python3 webvisualization_plots.py
 ```
 
 and follow the instructions printed to the terminal.
+
+
+## Task 6.2
+
+### Functionality
+In this task we were tasked to make the file webvisualization.py. This file builds a FastAPI-app which uses the script webvisualization_plots.py to generate a plot of covid cases, and displays the plot on a webpage.
+
+### Usage
+To display the plot on a webpage, the user needs to run the following command from the terminal
+
+```
+python3 webvisualization.py
+```
+
+To see the plot, the user can then visit the url stated in the terminal.

@@ -65,3 +65,12 @@ python3 webvisualization.py
 ```
 
 To see the plot, the user can then visit the url stated in the terminal.
+
+
+## Task 6.3
+
+### Functionality
+In this task we were tasked to build on the functionality from 6.2, adding the posibility for selecting countries, start-date and end-date on the webpage, and update the plot with the press of a button. 
+
+### Usage
+Same as 6.2.

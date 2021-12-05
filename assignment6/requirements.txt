@@ -1,0 +1,4 @@
+pandas
+altair
+altair_viewer
+pytest

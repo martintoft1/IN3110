@@ -12,10 +12,56 @@
 </head>
 <body>
   <div id="vis"></div>
-  <script>
-    (async function(vegaEmbed) {
 
-      var response = await fetch("plot_reported_cases_per_million.json");
+  <form action="javascript:refreshPlot()" id="start-form">
+    <label>Start-date: </label>
+    <input id="start" type="date" name="start-date" placeholder="yyyy-mm-dd" value="" min="2020-01-01" max="2022-01-01">
+    <button type="submit">Refresh</button>
+  </form>
+
+  <form action="javascript:refreshPlot()" id="end-form">
+    <label>End-date: </label>
+    <input id="end" type="date" name="end-date" placeholder="yyyy-mm-dd" value="" min="2020-01-01" max="2022-01-01">
+    <button type="submit">Refresh</button>
+  </form>
+
+  <form action="javascript:refreshPlot()" id="country-form">
+    {% for country in countries %}
+    <input type="checkbox" name="{{ country }}" value="{{ country }}" unchecked />
+    <label for="{{ country }}">{{ country }}</label>
+    <br />
+    {% endfor %}
+    <button type="submit">Refresh</button>
+  </form>
+
+  <script>
+    async function refreshPlot() {
+      // Create url for what is to be fetched
+      var toFetch = "/plot_reported_cases_per_million.json"
+      
+      // Get selected checkboxes for countries
+      var selected = [];
+      for (checkbox of document.getElementById("country-form").querySelectorAll("input[type=checkbox]")) {
+        if (checkbox.checked) {
+          selected.push(checkbox.value);
+        }
+      }
+      toFetch += "?countries=" + encodeURIComponent(selected.join(","));
+
+      // Get selected start-date
+      var start = document.getElementById("start").value
+      if (start) {
+        toFetch += "?start=" + encodeURIComponent(start);
+      }
+
+      // Get selected end-date
+      var end = document.getElementById("end").value
+      if (end) {
+        toFetch += "?end=" + encodeURIComponent(end);
+      }
+
+      // Update the altair plot
+      var response = await fetch(toFetch);
       var spec = await response.json();
 
       var embedOpt = {"mode": "vega-lite"};
@@ -31,7 +77,9 @@
       const el = document.getElementById('vis');
       vegaEmbed("#vis", spec, embedOpt)
         .catch(error => showError(el, error));
-    })(vegaEmbed);
+    };
+    // Refresh on page-load
+    refreshPlot();
   </script>
 </body>
 </html> 

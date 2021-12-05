@@ -1,5 +1,4 @@
 # Import modules to be tested
-#from webvisualization_plots import get_data_from_csv
 from webvisualization_plots import plot_reported_cases_per_million
 from webvisualization_plots import get_countries
 
@@ -18,3 +17,4 @@ def test_get_countries():
     """Tests the get_countries-function from webvisualization_plots"""
     countries = get_countries()
 
+# The tests for the webpage has to be done manually by running the program as described in README for task 6.2.

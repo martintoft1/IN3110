@@ -3,8 +3,8 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 import uvicorn
 from webvisualization_plots import plot_reported_cases_per_million
+from webvisualization_plots import get_countries
 from typing import Optional
-from datetime import datetime
 
 # Initialize app and templates
 app = FastAPI()
@@ -32,7 +32,8 @@ def plot_reported_cases_per_million_html(request: Request):
     return templates.TemplateResponse(
         "plot_reported_cases_per_million.html",
         {
-            "request": request
+            "request": request,
+            "countries": get_countries()
         },
     )
 

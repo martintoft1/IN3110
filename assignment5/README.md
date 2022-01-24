@@ -1,4 +1,5 @@
 # Assignment 5
+This assignment contains methods that uses regular expressions and BeautifulSoup for webscraping. The methods collects and filters data from different Wikipedia-articles, and write the data to seperate files and folders.
 
 ## Task 5.1
 

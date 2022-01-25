@@ -1,3 +1,6 @@
+# Assignment 4
+This assignment contains a python-package named instapy, which uses different filters to alter existing images. The filters have pure python implementations, numpy implementations and numba implementations.
+
 ## Task 4.1
 
 ### Prerequisites

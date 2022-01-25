@@ -118,7 +118,7 @@ Read Prerequisites in Task 5.1.
 Tests all the functionality implemeted in the different tasks in assignment 5.
 
 ### Usage
-To test all the functions and methods from the assignment, the user needs to run the following command from the assignment5-directory
+To test all the functions and methods from the assignment, the user needs to run the following command from the outer wikiscrape-directory 
 
 ```
 py.test

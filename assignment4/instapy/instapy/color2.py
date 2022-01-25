@@ -74,8 +74,13 @@ class Color2():
             os.chdir(old_path)
 
         else: # Save the filter image
-            input_filename_image, type = input_filename_image.split(".")
-            cv2.imwrite(f"{input_filename_image}_{filter}.{type}", image)
+            path_bits = input_filename_image.split(".")
+            len_leading_dots = len(path_bits) - 2
+            leading_dots = ""
+            for i in range(len_leading_dots):
+                leading_dots += "."
+            input_filename_image, type = path_bits[len_leading_dots], path_bits[len_leading_dots + 1]
+            cv2.imwrite(f"{leading_dots + input_filename_image}_{filter}.{type}", image)
 
 
     # 4.1 and 4.2:

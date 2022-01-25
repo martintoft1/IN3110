@@ -8,7 +8,7 @@ from instapy.color2 import Color2
 color_2 = Color2
 
 # Python gray filter
-from instapy.color2gray.python_color2gray import PythonColor2Gray
+from .color2gray.python_color2gray import PythonColor2Gray
 python_color_2_gray = PythonColor2Gray()
 
 # Numpy gray filter

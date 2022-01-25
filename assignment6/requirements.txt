@@ -1,5 +1,0 @@
-pandas
-altair
-altair_viewer
-pytest
-fastapi[all]
